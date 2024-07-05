@@ -40,6 +40,7 @@ function App() {
     },
   ]);
 
+  // Later, add more filters for city and cuisine. i think cuisine can stay on the front end but city should stay on the backend and be populated from what's in teh data?
   const visibleRestaurants = selectedRating
     ? restaurants.filter((e) => e.averageRating === selectedRating)
     : restaurants;

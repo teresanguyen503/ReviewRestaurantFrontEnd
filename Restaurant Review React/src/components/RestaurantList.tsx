@@ -2,6 +2,7 @@ interface Restaurant {
   id: number;
   restaurantName: string;
   streetAddress: string;
+  city: string;
   zipCode: string;
   cuisine: string; // will eventually be an object, with id and name because of a drop down menu
   averageRating: number; // will eventually be an object, with id and name because of a drop down menu
@@ -20,6 +21,7 @@ const RestaurantList = ({ restaurants, onDelete }: Props) => {
         <tr>
           <th>Restaurant Name</th>
           <th>Street Address</th>
+          <th>City</th>
           <th>Zip Code</th>
           <th>Cuisine</th>
           <th>Average Rating</th>
@@ -31,6 +33,7 @@ const RestaurantList = ({ restaurants, onDelete }: Props) => {
           <tr key={restaurant.id}>
             <td>{restaurant.restaurantName}</td>
             <td>{restaurant.streetAddress}</td>
+            <td>{restaurant.city}</td>
             <td>{restaurant.zipCode}</td>
             <td>{restaurant.cuisine}</td>
             <td>{restaurant.averageRating}</td>

@@ -2,8 +2,7 @@ import { date, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ratings } from "../App";
-import { cuisines } from "../App";
-
+import cuisines from "../cuisines";
 const schema = z.object({
   restaurant: z.string().min(1, { message: "Restaurant name is required." }),
   street: z.string().min(1, { message: "Street address is required." }),
@@ -18,14 +17,18 @@ const schema = z.object({
 
 type RestaurantFormData = z.infer<typeof schema>;
 
-const RestaurantForm = () => {
+interface Props {
+  onSubmit: (data: RestaurantFormData) => void;
+}
+
+const RestaurantForm = ({ onSubmit }: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RestaurantFormData>({ resolver: zodResolver(schema) });
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-3">
         <label htmlFor="restaurant" className="form-label">
           Restaurant Name

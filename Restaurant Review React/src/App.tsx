@@ -5,17 +5,19 @@ import RestaurantForm from "./components/RestaurantForm";
 import RestaurantList from "./components/RestaurantList";
 import RatingFilter from "./components/restaurant_filters/RatingFilters";
 import CuisineFilter from "./components/restaurant_filters/CuisineFilters";
+import CityFilter from "./components/restaurant_filters/CityFilters";
 
 function App() {
   const [selectedRating, setSelectedRating] = useState(0);
   const [selectedCuisine, setSelectedCuisine] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
 
   const [restaurants, setRestaurants] = useState([
     {
       id: 1,
       restaurantName: "aaa",
       streetAddress: "123 sw h",
-      city: "Portland",
+      city: "Tigard",
       zipCode: "97225",
       cuisine: "Asian",
       averageRating: 5,
@@ -25,7 +27,7 @@ function App() {
       id: 2,
       restaurantName: "bbb",
       streetAddress: "123 sw h",
-      city: "Portland",
+      city: "Beaverton",
       zipCode: "97225",
       cuisine: "Asian",
       averageRating: 5,
@@ -47,7 +49,8 @@ function App() {
   const visibleRestaurants = restaurants.filter((e) => {
     return (
       (!selectedRating || e.averageRating === selectedRating) &&
-      (!selectedCuisine || e.cuisine === selectedCuisine)
+      (!selectedCuisine || e.cuisine === selectedCuisine) &&
+      (!selectedCity || e.city === selectedCity)
     );
   });
   return (
@@ -59,6 +62,9 @@ function App() {
         <CuisineFilter
           onSelectCuisine={(cuisine) => setSelectedCuisine(cuisine)}
         />
+      </div>
+      <div className="mb-3">
+        <CityFilter onSelectCity={(city) => setSelectedCity(city)} />
       </div>
       <RestaurantList
         restaurants={visibleRestaurants}

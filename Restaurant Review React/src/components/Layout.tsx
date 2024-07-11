@@ -1,4 +1,10 @@
-function Layout() {
+import { ReactNode } from "react";
+
+interface Props {
+  children: ReactNode;
+}
+
+function Layout({ children }: Props) {
   return (
     <div className="container-fluid">
       <div className="row">
@@ -25,6 +31,7 @@ function Layout() {
             </ul>
           </div>
         </nav>
+        <main className="col-md-9 ml-sm-auto col-lg-10 px-4">{children}</main>
       </div>
     </div>
   );

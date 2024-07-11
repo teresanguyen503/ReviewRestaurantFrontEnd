@@ -1,3 +1,6 @@
+import { ratings } from "../App";
+import { cuisines } from "../App";
+
 const RestaurantForm = () => {
   return (
     <form>
@@ -24,6 +27,46 @@ const RestaurantForm = () => {
           Zip Code
         </label>
         <input id="zipcode" type="text" className="form-control" />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="cuisine" className="form-label">
+          Cuisine Type
+        </label>
+        <select id="cuisine" className="form-select">
+          <option value=""></option>
+          {cuisines.map((cuisine) => (
+            <option key={cuisine} value={cuisine}>
+              {cuisine}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-3">
+        <label htmlFor="rating" className="form-label">
+          Choose a Rating(1-5)
+        </label>
+        <select id="rating" className="form-select">
+          <option value=""></option>
+          {ratings.map((rating) => (
+            <option key={rating} value={rating}>
+              {rating}
+            </option>
+          ))}
+        </select>
+      </div>
+      {/* <div className="mb-3">
+        <label htmlFor="comment" className="form-label">
+          Comment
+        </label>
+        <input id="comment" type="text" className="form-control" />
+      </div> */}
+      <div className="mb-3 input-group">
+        <span className="input-group-text">Comment</span>
+        <textarea
+          className="form-control"
+          aria-label="Comment"
+          id="comment"
+        ></textarea>
       </div>
       <button className="btn btn-primary" type="submit">
         Submit

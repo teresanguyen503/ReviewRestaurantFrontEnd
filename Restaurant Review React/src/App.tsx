@@ -7,6 +7,16 @@ import RatingFilter from "./components/restaurant_filters/RatingFilters";
 import CuisineFilter from "./components/restaurant_filters/CuisineFilters";
 import CityFilter from "./components/restaurant_filters/CityFilters";
 
+export const cuisines = [
+  "American",
+  "Asian",
+  "Hispanic",
+  "Italian",
+  "Mediterranean",
+  "Other",
+];
+export const ratings = [1, 2, 3, 4, 5];
+
 function App() {
   const [selectedRating, setSelectedRating] = useState(0);
   const [selectedCuisine, setSelectedCuisine] = useState("");

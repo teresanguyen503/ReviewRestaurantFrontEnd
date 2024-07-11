@@ -1,17 +1,9 @@
+import { cuisines } from "../../App";
 interface Props {
   onSelectCuisine: (cuisine: string) => void;
 }
 
 const CuisineFilter = ({ onSelectCuisine }: Props) => {
-  const cuisines = [
-    "American",
-    "Asian",
-    "Hispanic",
-    "Italian",
-    "Mediterranean",
-    "Other",
-  ];
-
   return (
     <select
       className="form-select"

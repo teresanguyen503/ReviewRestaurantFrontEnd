@@ -5,11 +5,13 @@ import { ratings } from "../App";
 import { cuisines } from "../App";
 
 const schema = z.object({
-  restaurant: z.string(),
-  street: z.string(),
-  city: z.string(), // might need to change this if it's going to be a drop down menu?
-  zipcode: z.string(),
-  cuisine: z.enum(cuisines),
+  restaurant: z.string().min(1, { message: "Restaurant name is required." }),
+  street: z.string().min(1, { message: "Street address is required." }),
+  city: z.string().min(1, { message: "City is required." }), // might need to change this if it's going to be a drop down menu?
+  zipcode: z.string().min(1, { message: "Zip code is required." }),
+  cuisine: z.enum(cuisines, {
+    errorMap: () => ({ message: "Cuisine type is required." }),
+  }),
   rating: z.number().optional(),
   comment: z.string().max(300).optional().or(z.literal("")),
 });

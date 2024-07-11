@@ -4,9 +4,12 @@ import LoginForm from "./components/LoginForm";
 import RestaurantForm from "./components/RestaurantForm";
 import RestaurantList from "./components/RestaurantList";
 import RatingFilter from "./components/restaurant_filters/RatingFilters";
+import CuisineFilter from "./components/restaurant_filters/CuisineFilters";
 
 function App() {
   const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedCuisine, setSelectedCuisine] = useState("");
+
   const [restaurants, setRestaurants] = useState([
     {
       id: 1,
@@ -14,7 +17,7 @@ function App() {
       streetAddress: "123 sw h",
       city: "Portland",
       zipCode: "97225",
-      cuisine: "italian",
+      cuisine: "Asian",
       averageRating: 5,
       comment: "good",
     },
@@ -24,7 +27,7 @@ function App() {
       streetAddress: "123 sw h",
       city: "Portland",
       zipCode: "97225",
-      cuisine: "italian",
+      cuisine: "Asian",
       averageRating: 5,
       comment: "good",
     },
@@ -34,20 +37,28 @@ function App() {
       streetAddress: "123 sw h",
       city: "Portland",
       zipCode: "97225",
-      cuisine: "italian",
+      cuisine: "Italian",
       averageRating: 5,
       comment: "good",
     },
   ]);
 
   // Later, add more filters for city and cuisine. i think cuisine can stay on the front end but city should stay on the backend and be populated from what's in teh data?
-  const visibleRestaurants = selectedRating
-    ? restaurants.filter((e) => e.averageRating === selectedRating)
-    : restaurants;
+  const visibleRestaurants = restaurants.filter((e) => {
+    return (
+      (!selectedRating || e.averageRating === selectedRating) &&
+      (!selectedCuisine || e.cuisine === selectedCuisine)
+    );
+  });
   return (
     <div>
       <div className="mb-3">
         <RatingFilter onSelectRating={(rating) => setSelectedRating(rating)} />
+      </div>
+      <div className="mb-3">
+        <CuisineFilter
+          onSelectCuisine={(cuisine) => setSelectedCuisine(cuisine)}
+        />
       </div>
       <RestaurantList
         restaurants={visibleRestaurants}

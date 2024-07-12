@@ -1,8 +1,9 @@
-import { date, z } from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ratings from "../ratings";
 import cuisines from "../cuisines";
+
 const schema = z.object({
   restaurant: z.string().min(1, { message: "Restaurant name is required." }),
   street: z.string().min(1, { message: "Street address is required." }),
@@ -11,7 +12,12 @@ const schema = z.object({
   cuisine: z.enum(cuisines, {
     errorMap: () => ({ message: "Cuisine type is required." }),
   }),
-  rating: z.number().optional(),
+  // rating: z.number().optional(),
+  rating: z
+    .string()
+    .transform((val) => (val === "" ? undefined : parseInt(val, 10)))
+    .optional(),
+
   comment: z.string().max(300).optional().or(z.literal("")),
 });
 
@@ -27,6 +33,7 @@ const RestaurantForm = ({ onSubmit }: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<RestaurantFormData>({ resolver: zodResolver(schema) });
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-3">
@@ -103,8 +110,13 @@ const RestaurantForm = ({ onSubmit }: Props) => {
         <label htmlFor="rating" className="form-label">
           Choose a Rating(1-5)
         </label>
-        <select {...register("rating")} id="rating" className="form-select">
-          <option value=""></option>
+        <select
+          {...register("rating")}
+          id="rating"
+          className="form-select"
+          onChange={(event) => parseInt(event.target.value)}
+        >
+          <option value="0"></option>
           {ratings.map((rating) => (
             <option key={rating} value={rating}>
               {rating}
@@ -112,12 +124,6 @@ const RestaurantForm = ({ onSubmit }: Props) => {
           ))}
         </select>
       </div>
-      {/* <div className="mb-3">
-        <label htmlFor="comment" className="form-label">
-          Comment
-        </label>
-        <input id="comment" type="text" className="form-control" />
-      </div> */}
       <div className="mb-3 input-group">
         <span className="input-group-text">Comment</span>
         <textarea

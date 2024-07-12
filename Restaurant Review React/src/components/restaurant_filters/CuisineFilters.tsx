@@ -1,4 +1,4 @@
-import { cuisines } from "../../App";
+import cuisines from "../../cuisines";
 interface Props {
   onSelectCuisine: (cuisine: string) => void;
 }

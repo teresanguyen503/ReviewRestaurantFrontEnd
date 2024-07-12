@@ -1,5 +1,4 @@
-import { ratings } from "../../App";
-
+import ratings from "../../ratings";
 interface Props {
   onSelectRating: (rating: number) => void;
 }

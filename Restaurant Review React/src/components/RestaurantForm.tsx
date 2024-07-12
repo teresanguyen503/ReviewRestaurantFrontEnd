@@ -1,7 +1,7 @@
 import { date, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ratings } from "../App";
+import ratings from "../ratings";
 import cuisines from "../cuisines";
 const schema = z.object({
   restaurant: z.string().min(1, { message: "Restaurant name is required." }),

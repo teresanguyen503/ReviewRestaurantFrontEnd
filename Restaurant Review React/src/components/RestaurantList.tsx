@@ -1,11 +1,11 @@
-interface Restaurant {
+export interface Restaurant {
   id: number;
-  restaurantName: string;
-  streetAddress: string;
+  restaurant: string;
+  street: string;
   city: string;
-  zipCode: string;
+  zipcode: string;
   cuisine: string; // will eventually be an object, with id and name because of a drop down menu
-  averageRating: number; // will eventually be an object, with id and name because of a drop down menu
+  rating: number; // will eventually be an object, with id and name because of a drop down menu
   comment: string;
 }
 
@@ -31,12 +31,12 @@ const RestaurantList = ({ restaurants, onDelete }: Props) => {
       <tbody>
         {restaurants.map((restaurant) => (
           <tr key={restaurant.id}>
-            <td>{restaurant.restaurantName}</td>
-            <td>{restaurant.streetAddress}</td>
+            <td>{restaurant.restaurant}</td>
+            <td>{restaurant.street}</td>
             <td>{restaurant.city}</td>
-            <td>{restaurant.zipCode}</td>
+            <td>{restaurant.zipcode}</td>
             <td>{restaurant.cuisine}</td>
-            <td>{restaurant.averageRating}</td>
+            <td>{restaurant.rating}</td>
             {/* Need to go back here to accumulate average rating */}
             <td>{restaurant.comment}</td>
             {/* Need to go back here to grab comments to put into a new page */}

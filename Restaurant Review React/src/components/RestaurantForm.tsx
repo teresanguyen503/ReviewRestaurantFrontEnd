@@ -14,14 +14,13 @@ const schema = z.object({
   }),
   // rating: z.number().optional(),
   rating: z
-    .string()
-    .transform((val) => (val === "" ? undefined : parseInt(val, 10)))
+    .union([z.number(), z.string().transform((val) => parseInt(val, 10))])
     .optional(),
 
   comment: z.string().max(300).optional().or(z.literal("")),
 });
 
-type RestaurantFormData = z.infer<typeof schema>;
+export type RestaurantFormData = z.infer<typeof schema>;
 
 interface Props {
   onSubmit: (data: RestaurantFormData) => void;
@@ -95,7 +94,7 @@ const RestaurantForm = ({ onSubmit }: Props) => {
           Cuisine Type
         </label>
         <select {...register("cuisine")} id="cuisine" className="form-select">
-          <option value=""></option>
+          <option value="0"></option>
           {cuisines.map((cuisine) => (
             <option key={cuisine} value={cuisine}>
               {cuisine}
@@ -116,7 +115,7 @@ const RestaurantForm = ({ onSubmit }: Props) => {
           className="form-select"
           onChange={(event) => parseInt(event.target.value)}
         >
-          <option value="0"></option>
+          <option value=""></option>
           {ratings.map((rating) => (
             <option key={rating} value={rating}>
               {rating}

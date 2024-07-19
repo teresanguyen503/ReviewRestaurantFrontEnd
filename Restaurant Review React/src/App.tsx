@@ -74,9 +74,43 @@ function App() {
   });
   return (
     <div>
-      <div className="mb-5">
-        <RestaurantForm onSubmit={handleFormSubmit} />
+      <button
+        type="button"
+        className="btn btn-primary mb-3"
+        data-bs-toggle="modal"
+        data-bs-target="#restaurantModal"
+      >
+        Add Restaurant
+      </button>
+
+      <div
+        className="modal fade"
+        id="restaurantModal"
+        aria-labelledby="restaurantModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="restaurantModalLabel">
+                Add a Restaurant
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div className="mb-5">
+                <RestaurantForm onSubmit={handleFormSubmit} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div className="mb-3">
         <RatingFilter onSelectRating={(rating) => setSelectedRating(rating)} />
       </div>

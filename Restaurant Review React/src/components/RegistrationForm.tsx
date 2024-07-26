@@ -1,7 +1,7 @@
 import { date, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import securityQuestions from "../securityQuestions";
+import securityQuestions from "../constants/securityQuestions";
 
 const schema = z
   .object({

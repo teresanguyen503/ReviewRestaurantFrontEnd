@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Layout from "./components/Layout";
 import LoginForm from "./components/LoginForm";
 import RestaurantForm from "./components/RestaurantForm";
@@ -14,47 +15,22 @@ function App() {
   const [selectedCuisine, setSelectedCuisine] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
 
-  const [restaurants, setRestaurants] = useState([
-    {
-      id: 1,
-      restaurant: "aaa",
-      street: "123 sw h",
-      city: "Tigard",
-      zipcode: "97225",
-      cuisine: "Asian",
-      rating: 5,
-      comment: "good",
-    },
-    {
-      id: 2,
-      restaurant: "bbb",
-      street: "123 sw h",
-      city: "Beaverton",
-      zipcode: "97225",
-      cuisine: "Asian",
-      rating: 5,
-      comment: "good",
-    },
-    {
-      id: 3,
-      restaurant: "ccc",
-      street: "123 sw h",
-      city: "Portland",
-      zipcode: "97225",
-      cuisine: "Italian",
-      rating: 5,
-      comment: "good",
-    },
-  ]);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<Restaurant[]>("http://localhost:8080/restaurant")
+      .then((res) => setRestaurants(res.data));
+  }, []);
 
   const convertToRestaurant = (data: RestaurantFormData): Restaurant => ({
     id: restaurants.length + 1,
-    restaurant: data.restaurant,
-    street: data.street,
+    name: data.name,
+    streetAddress: data.streetAddress,
     city: data.city,
-    zipcode: data.zipcode,
+    zipCode: data.zipCode,
     cuisine: data.cuisine,
-    rating: data.rating ?? 0, // Default to 0 if undefined
+    averageRating: data.averageRating ?? 0, // Default to 0 if undefined
     comment: data.comment ?? "", // Default to empty string if undefined
   });
 
@@ -67,7 +43,7 @@ function App() {
   // Later, add more filters for city and cuisine. i think cuisine can stay on the front end but city should stay on the backend and be populated from what's in teh data?
   const visibleRestaurants = restaurants.filter((e) => {
     return (
-      (!selectedRating || e.rating === selectedRating) &&
+      (!selectedRating || e.averageRating === selectedRating) &&
       (!selectedCuisine || e.cuisine === selectedCuisine) &&
       (!selectedCity || e.city === selectedCity)
     );

@@ -5,15 +5,15 @@ import ratings from "../ratings";
 import cuisines from "../cuisines";
 
 const schema = z.object({
-  restaurant: z.string().min(1, { message: "Restaurant name is required." }),
-  street: z.string().min(1, { message: "Street address is required." }),
+  name: z.string().min(1, { message: "Restaurant name is required." }),
+  streetAddress: z.string().min(1, { message: "Street address is required." }),
   city: z.string().min(1, { message: "City is required." }), // might need to change this if it's going to be a drop down menu?
-  zipcode: z.string().min(1, { message: "Zip code is required." }),
+  zipCode: z.string().min(1, { message: "Zip code is required." }),
   cuisine: z.enum(cuisines, {
     errorMap: () => ({ message: "Cuisine type is required." }),
   }),
   // rating: z.number().optional(),
-  rating: z
+  averageRating: z
     .union([z.number(), z.string().transform((val) => parseInt(val, 10))])
     .optional(),
 
@@ -49,11 +49,9 @@ const RestaurantForm = ({ onSubmit }: Props) => {
           id="restaurant"
           type="text"
           className="form-control"
-          {...register("restaurant")}
+          {...register("name")}
         />
-        {errors.restaurant && (
-          <p className="text-danger">{errors.restaurant.message}</p>
-        )}
+        {errors.name && <p className="text-danger">{errors.name.message}</p>}
       </div>
       <div className="mb-3">
         <label htmlFor="street" className="form-label">
@@ -63,10 +61,10 @@ const RestaurantForm = ({ onSubmit }: Props) => {
           id="street"
           type="text"
           className="form-control"
-          {...register("street")}
+          {...register("streetAddress")}
         />
-        {errors.street && (
-          <p className="text-danger">{errors.street.message}</p>
+        {errors.streetAddress && (
+          <p className="text-danger">{errors.streetAddress.message}</p>
         )}
       </div>
       <div className="mb-3">
@@ -89,10 +87,10 @@ const RestaurantForm = ({ onSubmit }: Props) => {
           id="zipcode"
           type="text"
           className="form-control"
-          {...register("zipcode")}
+          {...register("zipCode")}
         />
-        {errors.zipcode && (
-          <p className="text-danger">{errors.zipcode.message}</p>
+        {errors.zipCode && (
+          <p className="text-danger">{errors.zipCode.message}</p>
         )}
       </div>
       <div className="mb-3">
@@ -116,8 +114,8 @@ const RestaurantForm = ({ onSubmit }: Props) => {
           Choose a Rating(1-5)
         </label>
         <select
-          {...register("rating")}
-          id="rating"
+          {...register("averageRating")}
+          id="averageRating"
           className="form-select"
           onChange={(event) => parseInt(event.target.value)}
         >

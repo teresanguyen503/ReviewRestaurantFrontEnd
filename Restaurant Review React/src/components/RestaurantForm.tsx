@@ -110,7 +110,7 @@ const RestaurantForm = ({ onSubmit }: Props) => {
         )}
       </div>
       <div className="mb-3">
-        <label htmlFor="rating" className="form-label">
+        <label htmlFor="averageRating" className="form-label">
           Choose a Rating(1-5)
         </label>
         <select

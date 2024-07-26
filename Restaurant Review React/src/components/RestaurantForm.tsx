@@ -42,11 +42,11 @@ const RestaurantForm = ({ onSubmit }: Props) => {
       })}
     >
       <div className="mb-3">
-        <label htmlFor="restaurant" className="form-label">
+        <label htmlFor="name" className="form-label">
           Restaurant Name
         </label>
         <input
-          id="restaurant"
+          id="name"
           type="text"
           className="form-control"
           {...register("name")}
@@ -54,11 +54,11 @@ const RestaurantForm = ({ onSubmit }: Props) => {
         {errors.name && <p className="text-danger">{errors.name.message}</p>}
       </div>
       <div className="mb-3">
-        <label htmlFor="street" className="form-label">
+        <label htmlFor="streetAddress" className="form-label">
           Address (Street Name)
         </label>
         <input
-          id="street"
+          id="streetAddress"
           type="text"
           className="form-control"
           {...register("streetAddress")}
@@ -80,11 +80,11 @@ const RestaurantForm = ({ onSubmit }: Props) => {
         {errors.city && <p className="text-danger">{errors.city.message}</p>}
       </div>
       <div className="mb-3">
-        <label htmlFor="zipcode" className="form-label">
+        <label htmlFor="zipCode" className="form-label">
           Zip Code
         </label>
         <input
-          id="zipcode"
+          id="zipCode"
           type="text"
           className="form-control"
           {...register("zipCode")}

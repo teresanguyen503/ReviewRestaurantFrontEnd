@@ -17,18 +17,28 @@ function App() {
 
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [error, setError] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
+    setIsLoading(true);
     axios
       .get<Restaurant[]>("http://localhost:8080/restaurant", {
         signal: controller.signal,
       })
-      .then((res) => setRestaurants(res.data))
+      .then((res) => {
+        setRestaurants(res.data);
+        setIsLoading(false);
+      })
       .catch((err) => {
         if (err instanceof CanceledError) return;
         setError(err.message);
+        setIsLoading(false);
       });
+    // .finally doesn't working with strict mode
+    // .finally(() => {
+    //   setIsLoading(false);
+    // });
 
     return () => controller.abort();
   }, []);
@@ -106,6 +116,7 @@ function App() {
       <div className="mb-3">
         <CityFilter onSelectCity={(city) => setSelectedCity(city)} />
       </div>
+      {isLoading && <div className="spinner-border"></div>}
       <RestaurantList
         restaurants={visibleRestaurants}
         onDelete={(id) =>

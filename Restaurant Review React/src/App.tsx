@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { CanceledError } from "axios";
 import Layout from "./components/Layout";
 import LoginForm from "./components/LoginForm";
 import RestaurantForm from "./components/RestaurantForm";
@@ -16,11 +16,21 @@ function App() {
   const [selectedCity, setSelectedCity] = useState("");
 
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [error, setError] = useState([]);
 
   useEffect(() => {
+    const controller = new AbortController();
     axios
-      .get<Restaurant[]>("http://localhost:8080/restaurant")
-      .then((res) => setRestaurants(res.data));
+      .get<Restaurant[]>("http://localhost:8080/restaurant", {
+        signal: controller.signal,
+      })
+      .then((res) => setRestaurants(res.data))
+      .catch((err) => {
+        if (err instanceof CanceledError) return;
+        setError(err.message);
+      });
+
+    return () => controller.abort();
   }, []);
 
   const convertToRestaurant = (data: RestaurantFormData): Restaurant => ({
@@ -50,6 +60,7 @@ function App() {
   });
   return (
     <div>
+      {error && <p className="text-danger">{error}</p>}
       <button
         type="button"
         className="btn btn-primary mb-3"

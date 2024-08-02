@@ -68,6 +68,16 @@ function App() {
       (!selectedCity || e.city === selectedCity)
     );
   });
+
+  const deleteRestaurant = (id: number) => {
+    const originalRestaurants = [...restaurants];
+    setRestaurants(restaurants.filter((r) => r.id !== id));
+
+    axios.delete("http://localhost:8080/restaurant/" + id).catch((err) => {
+      setError(err.message);
+      setRestaurants(originalRestaurants);
+    });
+  };
   return (
     <div>
       {error && <p className="text-danger">{error}</p>}
@@ -119,9 +129,7 @@ function App() {
       {isLoading && <div className="spinner-border"></div>}
       <RestaurantList
         restaurants={visibleRestaurants}
-        onDelete={(id) =>
-          setRestaurants(restaurants.filter((e) => e.id !== id))
-        }
+        onDelete={deleteRestaurant}
       />
     </div>
   );

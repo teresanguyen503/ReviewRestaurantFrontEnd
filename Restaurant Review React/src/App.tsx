@@ -46,7 +46,7 @@ function App() {
   const addRestaurant = (data: RestaurantFormData) => {
     const originalRestaurants = [...restaurants];
     const newRestaurant = convertToRestaurant(data);
-    setRestaurants([...restaurants, newRestaurant]);
+    setRestaurants([...restaurants, newRestaurant] as Restaurant[]);
     console.log("Form data:", newRestaurant);
 
     axios
@@ -70,8 +70,9 @@ function App() {
     });
   };
 
-  const convertToRestaurant = (data: RestaurantFormData): Restaurant => ({
-    id: restaurants.length + 1,
+  const convertToRestaurant = (
+    data: RestaurantFormData
+  ): Omit<Restaurant, "id"> => ({
     name: data.name,
     streetAddress: data.streetAddress,
     city: data.city,

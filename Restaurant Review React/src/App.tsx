@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios, { CanceledError } from "axios";
+import apiClient, { CanceledError } from "./services/api-client";
 import Layout from "./components/Layout";
 import LoginForm from "./components/LoginForm";
 import RestaurantForm from "./components/RestaurantForm";
@@ -22,8 +22,8 @@ function App() {
   useEffect(() => {
     const controller = new AbortController();
     setIsLoading(true);
-    axios
-      .get<Restaurant[]>("http://localhost:8080/restaurant", {
+    apiClient
+      .get<Restaurant[]>("/restaurant", {
         signal: controller.signal,
       })
       .then((res) => {
@@ -49,8 +49,8 @@ function App() {
     setRestaurants([...restaurants, newRestaurant] as Restaurant[]);
     console.log("Form data:", newRestaurant);
 
-    axios
-      .post("http://localhost:8080/restaurant", newRestaurant)
+    apiClient
+      .post("/restaurant", newRestaurant)
       .then(({ data: restaurant }) =>
         setRestaurants([restaurant, ...restaurants])
       )
@@ -64,7 +64,7 @@ function App() {
     const originalRestaurants = [...restaurants];
     setRestaurants(restaurants.filter((r) => r.id !== id));
 
-    axios.delete("http://localhost:8080/restaurant/" + id).catch((err) => {
+    apiClient.delete("/restaurant/" + id).catch((err) => {
       setError(err.message);
       setRestaurants(originalRestaurants);
     });

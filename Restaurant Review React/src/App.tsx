@@ -43,6 +43,33 @@ function App() {
     return () => controller.abort();
   }, []);
 
+  const addRestaurant = (data: RestaurantFormData) => {
+    const originalRestaurants = [...restaurants];
+    const newRestaurant = convertToRestaurant(data);
+    setRestaurants([...restaurants, newRestaurant]);
+    console.log("Form data:", newRestaurant);
+
+    axios
+      .post("http://localhost:8080/restaurant", newRestaurant)
+      .then(({ data: restaurant }) =>
+        setRestaurants([restaurant, ...restaurants])
+      )
+      .catch((err) => {
+        setError(err.message);
+        setRestaurants(originalRestaurants);
+      });
+  };
+
+  const deleteRestaurant = (id: number) => {
+    const originalRestaurants = [...restaurants];
+    setRestaurants(restaurants.filter((r) => r.id !== id));
+
+    axios.delete("http://localhost:8080/restaurant/" + id).catch((err) => {
+      setError(err.message);
+      setRestaurants(originalRestaurants);
+    });
+  };
+
   const convertToRestaurant = (data: RestaurantFormData): Restaurant => ({
     id: restaurants.length + 1,
     name: data.name,
@@ -54,12 +81,6 @@ function App() {
     comment: data.comment ?? "", // Default to empty string if undefined
   });
 
-  const handleFormSubmit = (data: RestaurantFormData) => {
-    const newRestaurant = convertToRestaurant(data);
-    setRestaurants([...restaurants, newRestaurant]);
-    console.log("Form data:", newRestaurant);
-  };
-
   // Later, add more filters for city and cuisine. i think cuisine can stay on the front end but city should stay on the backend and be populated from what's in teh data?
   const visibleRestaurants = restaurants.filter((e) => {
     return (
@@ -69,15 +90,6 @@ function App() {
     );
   });
 
-  const deleteRestaurant = (id: number) => {
-    const originalRestaurants = [...restaurants];
-    setRestaurants(restaurants.filter((r) => r.id !== id));
-
-    axios.delete("http://localhost:8080/restaurant/" + id).catch((err) => {
-      setError(err.message);
-      setRestaurants(originalRestaurants);
-    });
-  };
   return (
     <div>
       {error && <p className="text-danger">{error}</p>}
@@ -108,7 +120,7 @@ function App() {
             </div>
             <div className="modal-body">
               <div className="mb-5">
-                <RestaurantForm onSubmit={handleFormSubmit} />
+                <RestaurantForm onSubmit={addRestaurant} />
               </div>
             </div>
           </div>

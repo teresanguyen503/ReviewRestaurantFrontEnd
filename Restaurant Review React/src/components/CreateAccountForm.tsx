@@ -27,19 +27,19 @@ const schema = z
     path: ["confirmPassword"],
   });
 
-type RegisterFormData = z.infer<typeof schema>;
+type CreateAccountFormData = z.infer<typeof schema>;
 
 interface Props {
-  onSubmit: (data: RegisterFormData) => void;
+  onSubmit: (data: CreateAccountFormData) => void;
 }
 
-const RegistrationForm = ({ onSubmit }: Props) => {
+const CreateAccountForm = ({ onSubmit }: Props) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<RegisterFormData>({ resolver: zodResolver(schema) });
+  } = useForm<CreateAccountFormData>({ resolver: zodResolver(schema) });
   return (
     <form
       onSubmit={handleSubmit((data) => {
@@ -156,4 +156,4 @@ const RegistrationForm = ({ onSubmit }: Props) => {
   );
 };
 
-export default RegistrationForm;
+export default CreateAccountForm;

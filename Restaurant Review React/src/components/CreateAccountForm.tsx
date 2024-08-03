@@ -1,4 +1,4 @@
-import { date, z } from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import securityQuestions from "../constants/securityQuestions";
@@ -27,7 +27,7 @@ const schema = z
     path: ["confirmPassword"],
   });
 
-type CreateAccountFormData = z.infer<typeof schema>;
+export type CreateAccountFormData = z.infer<typeof schema>;
 
 interface Props {
   onSubmit: (data: CreateAccountFormData) => void;

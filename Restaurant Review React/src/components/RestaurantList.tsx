@@ -1,13 +1,4 @@
-export interface Restaurant {
-  id: number;
-  name: string;
-  streetAddress: string;
-  city: string;
-  zipCode: string;
-  cuisine: string; // will eventually be an object, with id and name because of a drop down menu
-  averageRating: number; // will eventually be an object, with id and name because of a drop down menu
-  comment: string;
-}
+import { Restaurant } from "../services/restaurant-service";
 
 interface Props {
   restaurants: Restaurant[];

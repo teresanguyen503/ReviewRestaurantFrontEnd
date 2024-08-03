@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient, { CanceledError } from "./services/api-client";
+import { CanceledError } from "./services/api-client";
 import Layout from "./components/Layout";
 import LoginForm from "./components/LoginForm";
 import RestaurantForm from "./components/RestaurantForm";
@@ -7,8 +7,8 @@ import RestaurantList from "./components/RestaurantList";
 import RatingFilter from "./components/restaurant_filters/RatingFilters";
 import CuisineFilter from "./components/restaurant_filters/CuisineFilters";
 import CityFilter from "./components/restaurant_filters/CityFilters";
-import { Restaurant } from "./components/RestaurantList";
 import { RestaurantFormData } from "./components/RestaurantForm";
+import restaurantService, { Restaurant } from "./services/restaurant-service";
 
 function App() {
   const [selectedRating, setSelectedRating] = useState(0);
@@ -20,12 +20,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const controller = new AbortController();
     setIsLoading(true);
-    apiClient
-      .get<Restaurant[]>("/restaurant", {
-        signal: controller.signal,
-      })
+    const { request, cancel } = restaurantService.getAllRestaurants();
+    request
       .then((res) => {
         setRestaurants(res.data);
         setIsLoading(false);
@@ -40,7 +37,7 @@ function App() {
     //   setIsLoading(false);
     // });
 
-    return () => controller.abort();
+    return () => cancel();
   }, []);
 
   const addRestaurant = (data: RestaurantFormData) => {
@@ -49,8 +46,8 @@ function App() {
     setRestaurants([...restaurants, newRestaurant] as Restaurant[]);
     console.log("Form data:", newRestaurant);
 
-    apiClient
-      .post("/restaurant", newRestaurant)
+    restaurantService
+      .createRestaurant(newRestaurant)
       .then(({ data: restaurant }) =>
         setRestaurants([restaurant, ...restaurants])
       )
@@ -64,7 +61,7 @@ function App() {
     const originalRestaurants = [...restaurants];
     setRestaurants(restaurants.filter((r) => r.id !== id));
 
-    apiClient.delete("/restaurant/" + id).catch((err) => {
+    restaurantService.deleteRestaurant(id).catch((err) => {
       setError(err.message);
       setRestaurants(originalRestaurants);
     });

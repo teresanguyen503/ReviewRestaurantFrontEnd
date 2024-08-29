@@ -1,11 +1,17 @@
 import { useState } from "react";
 import userService, { User } from "../services/user-service";
 import CreateAccountForm, { CreateAccountFormData } from "./CreateAccountForm";
-import LoginForm from "./LoginForm";
+import LoginForm, { LoginFormData } from "./LoginForm";
+import authService, {
+  LoginRequest,
+  LoginResponse,
+} from "../services/auth-service";
 
 const Home = () => {
   const [user, setUser] = useState<User[]>([]);
   const [error, setError] = useState([]);
+
+  const [login, setLogin] = useState<LoginResponse[]>([]);
 
   const addUser = (data: CreateAccountFormData) => {
     const originalUser = [...user];
@@ -15,6 +21,23 @@ const Home = () => {
     userService
       .createUser(data)
       .then(({ data: user }) => setUser([user, ...user]))
+      .catch((err) => {
+        setError(err.message);
+        console.log(err.message);
+      });
+  };
+
+  const loginUser = (data: LoginFormData) => {
+    const orginalLogin = [...login];
+    setLogin([...login, data] as LoginResponse[]);
+    console.log("Logged in?: ", data);
+
+    authService
+      .login(data)
+      .then(({ data: loginResponse }) => {
+        setLogin([loginResponse]);
+        console.log(loginResponse);
+      })
       .catch((err) => {
         setError(err.message);
         console.log(err.message);
@@ -88,7 +111,7 @@ const Home = () => {
                 </div>
                 <div className="modal-body">
                   <div className="mb-5">
-                    <LoginForm onSubmit={(data) => console.log(data)} />
+                    <LoginForm onSubmit={loginUser} />
                   </div>
                 </div>
               </div>

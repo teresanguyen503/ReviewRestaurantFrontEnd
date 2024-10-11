@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import restaurantService, { Restaurant } from "../services/restaurant-service";
 import RestaurantForm, { RestaurantFormData } from "./RestaurantForm";
 import RestaurantList from "./RestaurantList";
+import ModalButton from "./modal/ModalButton";
 import CityFilter from "./restaurant_filters/CityFilters";
 import CuisineFilter from "./restaurant_filters/CuisineFilters";
 import RatingFilter from "./restaurant_filters/RatingFilters";
@@ -88,7 +89,15 @@ const Dashboard = () => {
   return (
     <div>
       {error && <p className="text-danger">{error}</p>}
-      <button
+      <ModalButton
+        buttonText={"Add Restaurant"}
+        className={"btn btn-primary mb-3"}
+        label={"restaurant"}
+        formComponent={RestaurantForm}
+        formProps={{ onSubmit: addRestaurant }}
+      />
+
+      {/* <button
         type="button"
         className="btn btn-primary mb-3"
         data-bs-toggle="modal"
@@ -120,7 +129,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="mb-3">
         <RatingFilter onSelectRating={(rating) => setSelectedRating(rating)} />
